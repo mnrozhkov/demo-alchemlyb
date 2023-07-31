@@ -32,3 +32,7 @@ dvc exp run
 ```bash
 dvc remote add local remote_storage
 ```
+
+## 5. Track metrics and plots (DVC/DVCLive)
+
+- [DVCLive Documentation docs](https://dvc.org/doc/dvclive?tab=Metrics#dvclive-documentation) 
