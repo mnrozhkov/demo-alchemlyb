@@ -1,6 +1,6 @@
 init_conf:
   nmol_1: 300 
-  nmol_2: 300 
+  nmol_2: 400 
   nmol_3: 600 
   nmol_4: 900 
 
