@@ -1,0 +1,7 @@
+# DVC 
+dvc==3.10.1
+dvclive==2.13.0
+
+# Sim
+matplotlib
+pandas
