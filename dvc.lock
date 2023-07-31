@@ -1,0 +1,54 @@
+schema: '2.0'
+stages:
+  initial_configuration:
+    cmd:
+    - echo "gmx insert-molecule -ci ch.gro -nmol 300 -box 6 6 6 -o temp.gro" > results/temp.gro
+    - echo "gmx insert-molecule -ci cl.gro -nmol 300 -f temp.gro -try 10000 -o temp2.gro"
+      > results/temp2.gro
+    - echo "gmx insert-molecule -ci gly.gro -nmol 600 -f temp2.gro -try 10000 -o temp3.gro"
+      > results/temp3.gro
+    - echo "gmx insert-molecule -ci water.gro -nmol 900 -f temp3.gro -try 10000 -o
+      init_conf.gro" > results/init_conf.gro
+    params:
+      params.yaml:
+        init_conf:
+          nmol_1: 300
+          nmol_2: 300
+          nmol_3: 600
+          nmol_4: 900
+    outs:
+    - path: results/init_conf.gro
+      hash: md5
+      md5: 18eafcd626a0654014e4adcb94aa2027
+      size: 85
+    - path: results/temp.gro
+      hash: md5
+      md5: bf9a015b10242def53b9463de254785e
+      size: 64
+    - path: results/temp2.gro
+      hash: md5
+      md5: 04c965cf86d961d7ff6f5ae6d86f77ba
+      size: 77
+    - path: results/temp3.gro
+      hash: md5
+      md5: 0c7d6a45d374bd85130f26f86807c97f
+      size: 79
+  nvt_1_ns:
+    cmd:
+    - echo "gmx grompp -f sim_nvt.mdp -c init_conf.gro -p topology.top -o nvt_out.tpro"
+      > results/nvt_out.tpro
+    - echo "gmx mdrun -deffnm nvt_out -nt 28"
+    deps:
+    - path: results/init_conf.gro
+      hash: md5
+      md5: 18eafcd626a0654014e4adcb94aa2027
+      size: 85
+    params:
+      params.yaml:
+        nvt_1_ns:
+          nt: 28
+    outs:
+    - path: results/nvt_out.tpro
+      hash: md5
+      md5: ccca12836c4c528407db33717e49d6f8
+      size: 75
