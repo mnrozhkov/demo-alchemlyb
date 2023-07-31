@@ -21,6 +21,14 @@ dvc exp run
 ```
 
 ## 3. Get Started: Experimenting Using Pipelines
-- Follow the [Get Started: Experimenting Using Pipelines](https://dvc.org/doc/start/experiments/experiment-pipelines#visualizing-the-experiment-dag) tutorial
 
+1. Initialize DVC project [Get Started with DVC](https://dvc.org/doc/start#get-started-with-dvc) tutorial
+2. Create teh pipeline [Get Started: Experimenting Using Pipelines](https://dvc.org/doc/start/experiments/experiment-pipelines#visualizing-the-experiment-dag) tutorial
+3. Setup [Experiment Tracking](https://dvc.org/doc/start/experiments/experiment-tracking#get-started-experiment-tracking)
 
+## 4. Add Remote Storage 
+
+- [Remote Storage docs](https://dvc.org/doc/user-guide/data-management/remote-storage#remote-storage)
+```bash
+dvc remote add local remote_storage
+```
