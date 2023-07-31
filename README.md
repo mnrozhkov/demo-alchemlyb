@@ -1,5 +1,5 @@
 # Getting started
-This demo runs a simulation pipeline t
+This demo runs a simulation pipeline for [GROMACS](https://tutorials.gromacs.org/) and [LAMMPS](https://lammps.org/#gsc.tab=0)
 
 ## 1. Setup
 
@@ -30,7 +30,7 @@ dvc exp run
 
 - [Remote Storage docs](https://dvc.org/doc/user-guide/data-management/remote-storage#remote-storage)
 ```bash
-dvc remote add local remote_storage
+dvc remote add -d local #REMOTE_STORAGE_PATH
 ```
 
 ## 5. Track metrics and plots (DVC/DVCLive)

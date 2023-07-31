@@ -1,7 +1,7 @@
 # Project specific 
 .venv
-*.ipynb
 .scripts/
+notebooks/
 
 # IDE 
 .DS_Store
