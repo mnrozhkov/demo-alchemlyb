@@ -36,3 +36,15 @@ dvc remote add -d local #REMOTE_STORAGE_PATH
 ## 5. Track metrics and plots (DVC/DVCLive)
 
 - [DVCLive Documentation docs](https://dvc.org/doc/dvclive?tab=Metrics#dvclive-documentation) 
+
+
+
+# Multiple pipelines 
+
+```bash
+dvc repro sim/init_config/dvc.yaml
+dvc repro sim/annealing/dvc.yaml
+dvc repro sim/free_equilibrium/dvc.yaml
+dvc repro sim/free_energy/dvc.yaml
+
+```

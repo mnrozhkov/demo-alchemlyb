@@ -1,0 +1,27 @@
+schema: '2.0'
+stages:
+  free_equilibrium:
+    cmd:
+    - mkdir -p ../../results/free_equilibrium
+    - echo "gmx grompp -f nemd.mdp -c cooling_out.gro -p topology.top -o nemd_out.tpr"
+      > ../../results/free_equilibrium/nemd_out.tpr
+    - echo "ggmx mdrun -deffnm nemd_out -nt 28"
+    - echo "gmx energy -f nemd_out.edr -o energy.xvg" > ../../results/free_equilibrium/energy.xvg
+    deps:
+    - path: ../../results/annealing/cooling_out.tpr
+      hash: md5
+      md5: 0a3ceada1bd054180f6dd9b23e66d94e
+      size: 81
+    - path: ../../results/init_config/init_conf.gro
+      hash: md5
+      md5: 18eafcd626a0654014e4adcb94aa2027
+      size: 85
+    outs:
+    - path: ../../results/free_equilibrium/energy.xvg
+      hash: md5
+      md5: 0d5c6118295f6fd5f7aca7bdf3ef5fb9
+      size: 41
+    - path: ../../results/free_equilibrium/nemd_out.tpr
+      hash: md5
+      md5: b75770696844da84cc7ee92587addbce
+      size: 74

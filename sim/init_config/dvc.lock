@@ -1,0 +1,36 @@
+schema: '2.0'
+stages:
+  initial_configuration:
+    cmd:
+    - mkdir -p ../../results/init_config
+    - echo "gmx insert-molecule -ci ch.gro -nmol 300 -box 6 6 6 -o temp.gro" > ../../results/init_config/temp.gro
+    - echo "gmx insert-molecule -ci cl.gro -nmol 400 -f temp.gro -try 10000 -o temp2.gro"
+      > ../../results/init_config/temp2.gro
+    - echo "gmx insert-molecule -ci gly.gro -nmol 600 -f temp2.gro -try 10000 -o temp3.gro"
+      > ../../results/init_config/temp3.gro
+    - echo "gmx insert-molecule -ci water.gro -nmol 900 -f temp3.gro -try 10000 -o
+      init_conf.gro" > ../../results/init_config/init_conf.gro
+    params:
+      params.yaml:
+        init_conf:
+          nmol_1: 300
+          nmol_2: 400
+          nmol_3: 600
+          nmol_4: 900
+    outs:
+    - path: ../../results/init_config/init_conf.gro
+      hash: md5
+      md5: 18eafcd626a0654014e4adcb94aa2027
+      size: 85
+    - path: ../../results/init_config/temp.gro
+      hash: md5
+      md5: bf9a015b10242def53b9463de254785e
+      size: 64
+    - path: ../../results/init_config/temp2.gro
+      hash: md5
+      md5: 246b2baabc41ceea8f8acd884409d8b3
+      size: 77
+    - path: ../../results/init_config/temp3.gro
+      hash: md5
+      md5: 0c7d6a45d374bd85130f26f86807c97f
+      size: 79

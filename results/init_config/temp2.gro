@@ -1,0 +1,1 @@
+gmx insert-molecule -ci cl.gro -nmol 400 -f temp.gro -try 10000 -o temp2.gro

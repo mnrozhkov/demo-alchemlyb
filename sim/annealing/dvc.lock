@@ -1,0 +1,75 @@
+schema: '2.0'
+stages:
+  nvt_1_ns:
+    cmd:
+    - mkdir -p ../../results/annealing
+    - echo "gmx grompp -f sim_nvt.mdp -c init_conf.gro -p topology.top -o nvt_out.tpro"
+      > ../../results/annealing/nvt_out.tpro
+    - echo "gmx mdrun -deffnm nvt_out -nt 28"
+    deps:
+    - path: ../../results/init_config/init_conf.gro
+      hash: md5
+      md5: 18eafcd626a0654014e4adcb94aa2027
+      size: 85
+    params:
+      params.yaml:
+        nvt_1_ns:
+          nt: 28
+    outs:
+    - path: ../../results/annealing/nvt_out.tpro
+      hash: md5
+      md5: ccca12836c4c528407db33717e49d6f8
+      size: 75
+  cooling_down:
+    cmd:
+    - mkdir -p ../../results/annealing
+    - echo "gmx grompp -f sim_cool.mdp -c nvt_500_out.gro -p topology.top -o cooling_out.tpr"
+      > ../../results/annealing/cooling_out.tpr
+    - echo "gmx mdrun -deffnm heating_out -nt 28"
+    deps:
+    - path: ../../results/annealing/nvt_out.tpro
+      hash: md5
+      md5: ccca12836c4c528407db33717e49d6f8
+      size: 75
+    outs:
+    - path: ../../results/annealing/cooling_out.tpr
+      hash: md5
+      md5: 0a3ceada1bd054180f6dd9b23e66d94e
+      size: 81
+  NpT_at_desired_T:
+    cmd:
+    - mkdir -p ../../results/annealing
+    - echo "gmx grompp -f sim_npt.mdp -c cooling_out.gro -p topology.top -o npt_out.tpr"
+      > ../../results/annealing/npt_out.tpr
+    - echo "gmx mdrun -deffnm npt_out -nt 28"
+    - echo "gmx energy -f npt_out.edr -o energy.xvg" > ../../results/annealing/energy.xvg
+    deps:
+    - path: ../../results/annealing/nvt_out.tpro
+      hash: md5
+      md5: ccca12836c4c528407db33717e49d6f8
+      size: 75
+    outs:
+    - path: ../../results/annealing/energy.xvg
+      hash: md5
+      md5: 3a9e3782f5c1e973ce5fc51fd422f17e
+      size: 40
+    - path: ../../results/annealing/npt_out.tpr
+      hash: md5
+      md5: b878e5dd070a7eca1eb0c32f8fa2eb47
+      size: 76
+  heat_500k:
+    cmd:
+    - mkdir -p ../../results/annealing
+    - echo "gmx grompp -f sim_heat.mdp -c nvt_out.gro -p topology.top -o heating_out.tpr"
+      > ../../results/annealing/heating_out.tpr
+    - echo "gmx mdrun -deffnm heating_out -nt 28"
+    deps:
+    - path: ../../results/annealing/nvt_out.tpro
+      hash: md5
+      md5: ccca12836c4c528407db33717e49d6f8
+      size: 75
+    outs:
+    - path: ../../results/annealing/heating_out.tpr
+      hash: md5
+      md5: f678afc75e7b696d680e317932f114d4
+      size: 77

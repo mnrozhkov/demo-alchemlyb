@@ -1,0 +1,50 @@
+vars: 
+  - SIM_RES_CONFIG_DIR: "../../results/init_config"
+  - SIM_RES_ANNL_DIR: "../../results/annealing"
+
+stages:
+  nvt_1_ns:
+    cmd: 
+      - mkdir -p ${SIM_RES_ANNL_DIR}
+      - echo "gmx grompp -f sim_nvt.mdp -c init_conf.gro -p topology.top -o nvt_out.tpro" > ${SIM_RES_ANNL_DIR}/nvt_out.tpro 
+      - echo "gmx mdrun -deffnm nvt_out -nt ${nvt_1_ns.nt}"
+    params:
+      - nvt_1_ns
+    deps:
+     - ${SIM_RES_CONFIG_DIR}/init_conf.gro
+    outs:
+      - ${SIM_RES_ANNL_DIR}/nvt_out.tpro
+
+  heat_500k:
+    cmd: 
+      - mkdir -p ${SIM_RES_ANNL_DIR}
+      - echo "gmx grompp -f sim_heat.mdp -c nvt_out.gro -p topology.top -o heating_out.tpr" > ${SIM_RES_ANNL_DIR}/heating_out.tpr
+      - echo "gmx mdrun -deffnm heating_out -nt 28"
+    deps:
+     - ${SIM_RES_ANNL_DIR}/nvt_out.tpro
+    outs:
+      - ${SIM_RES_ANNL_DIR}/heating_out.tpr
+      
+  # add stages ...
+
+  cooling_down:
+    cmd: 
+      - mkdir -p ${SIM_RES_ANNL_DIR}
+      - echo "gmx grompp -f sim_cool.mdp -c nvt_500_out.gro -p topology.top -o cooling_out.tpr" > ${SIM_RES_ANNL_DIR}/cooling_out.tpr
+      - echo "gmx mdrun -deffnm heating_out -nt 28"
+    deps:
+     - ${SIM_RES_ANNL_DIR}/nvt_out.tpro
+    outs:
+      - ${SIM_RES_ANNL_DIR}/cooling_out.tpr
+
+  NpT_at_desired_T:
+    cmd: 
+      - mkdir -p ${SIM_RES_ANNL_DIR}
+      - echo "gmx grompp -f sim_npt.mdp -c cooling_out.gro -p topology.top -o npt_out.tpr" > ${SIM_RES_ANNL_DIR}/npt_out.tpr
+      - echo "gmx mdrun -deffnm npt_out -nt 28"
+      - echo "gmx energy -f npt_out.edr -o energy.xvg" > ${SIM_RES_ANNL_DIR}/energy.xvg
+    deps:
+     - ${SIM_RES_ANNL_DIR}/nvt_out.tpro  # change to npt_out.tpr
+    outs:
+      - ${SIM_RES_ANNL_DIR}/npt_out.tpr
+      - ${SIM_RES_ANNL_DIR}/energy.xvg

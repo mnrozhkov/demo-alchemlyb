@@ -1,0 +1,52 @@
+schema: '2.0'
+stages:
+  free_equilibrium:
+    cmd:
+    - mkdir -p ../../results/free_energy
+    - echo "gmx grompp -f sim_md.mdp -c npt_out.gro -p topol_gas.top -o md_out.tpr"
+      > ../../results/free_energy/md_out.tpr
+    - echo "gmx mdrun -deffnm md_out -nt 28"
+    - echo "gmx energy -f md_out.edr -o energy.xvg" > ../../results/free_energy/energy.xvg
+    deps:
+    - path: ../../results/annealing/cooling_out.tpr
+      hash: md5
+      md5: 0a3ceada1bd054180f6dd9b23e66d94e
+      size: 81
+    - path: ../../results/init_config/init_conf.gro
+      hash: md5
+      md5: 18eafcd626a0654014e4adcb94aa2027
+      size: 85
+    outs:
+    - path: ../../results/free_energy/energy.xvg
+      hash: md5
+      md5: 51eb19ddadfb49d003b318cac8381452
+      size: 39
+    - path: ../../results/free_energy/md_out.tpr
+      hash: md5
+      md5: 2a53ec2f09ed52bdbeb41fba593d18b9
+      size: 71
+  free_energy:
+    cmd:
+    - mkdir -p ../../results/free_energy
+    - echo "gmx grompp -f sim_md.mdp -c npt_out.gro -p topol_gas.top -o md_out.tpr"
+      > ../../results/free_energy/md_out.tpr
+    - echo "gmx mdrun -deffnm md_out -nt 28"
+    - echo "gmx energy -f md_out.edr -o energy.xvg" > ../../results/free_energy/energy.xvg
+    deps:
+    - path: ../../results/annealing/cooling_out.tpr
+      hash: md5
+      md5: 0a3ceada1bd054180f6dd9b23e66d94e
+      size: 81
+    - path: ../../results/init_config/init_conf.gro
+      hash: md5
+      md5: 18eafcd626a0654014e4adcb94aa2027
+      size: 85
+    outs:
+    - path: ../../results/free_energy/energy.xvg
+      hash: md5
+      md5: 51eb19ddadfb49d003b318cac8381452
+      size: 39
+    - path: ../../results/free_energy/md_out.tpr
+      hash: md5
+      md5: 2a53ec2f09ed52bdbeb41fba593d18b9
+      size: 71

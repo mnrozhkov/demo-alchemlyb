@@ -1,0 +1,25 @@
+vars: 
+  - OUT_DIR: "../../results/init_config"
+
+stages:
+  initial_configuration:
+    cmd: 
+    - mkdir -p ${OUT_DIR}
+    - echo "gmx insert-molecule -ci ch.gro -nmol 300 -box 6 6 6 -o temp.gro" > ${OUT_DIR}/temp.gro
+    - echo "gmx insert-molecule -ci cl.gro -nmol ${init_conf.nmol_2} -f temp.gro -try 10000 -o temp2.gro" > ${OUT_DIR}/temp2.gro 
+    - echo "gmx insert-molecule -ci gly.gro -nmol ${init_conf.nmol_3} -f temp2.gro -try 10000 -o temp3.gro" > ${OUT_DIR}/temp3.gro 
+    - echo "gmx insert-molecule -ci water.gro -nmol ${init_conf.nmol_4} -f temp3.gro -try 10000 -o init_conf.gro" > ${OUT_DIR}/init_conf.gro
+    params:
+      - init_conf
+    # deps:
+      # - ch.gro
+      # - cl.gro
+      # - gly.gro
+      # - water.gro
+    outs:
+      - ${OUT_DIR}/temp.gro:
+          cache: true         # save & version this file with DVC
+      - ${OUT_DIR}/temp2.gro:
+          cache: false        # save & version this file with Git
+      - ${OUT_DIR}/temp3.gro
+      - ${OUT_DIR}/init_conf.gro
