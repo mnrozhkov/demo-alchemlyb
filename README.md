@@ -41,10 +41,14 @@ dvc remote add -d local #REMOTE_STORAGE_PATH
 
 # Multiple pipelines 
 
+Run separate computation pipelines of the simulation by separate commands. 
+- `dvc repro` runs a pipeline, but doesn't create an experiment ref
+  `dvc exp run` creats an experiment ref (can be visualised in VSCode Extension for DVC)
+
 ```bash
-dvc repro sim/init_config/dvc.yaml
-dvc repro sim/annealing/dvc.yaml
+dvc repro sim/init_config/dvc.yaml  
+dvc repro sim/annealing/dvc.yaml   
 dvc repro sim/free_equilibrium/dvc.yaml
-dvc repro sim/free_energy/dvc.yaml
+dvc exp run sim/free_energy/dvc.yaml 
 
 ```
